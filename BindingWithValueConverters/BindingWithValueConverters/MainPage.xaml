@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="BindingWithValueConverters.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BindingWithValueConverters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:valueconverter="using:BindingWithValueConverters.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding WeatherViewModel, RelativeSource={RelativeSource Self}}">
+
+    <Page.Resources>
+        <valueconverter:DateToStringConverter x:Key="DateToStringConverter" />
+        <valueconverter:WeatherEnumToImagePathConverter x:Key="WeatherToPathConverter" />
+        <valueconverter:ToHigh x:Key="ToHighConverter"/>
+        <valueconverter:ToLow x:Key="ToLowConverter"/>
+    </Page.Resources>
+    
+    <ScrollViewer>
+        <StackPanel>
+            <ListView ItemsSource="{Binding}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="20,0,0,30">
+                            <TextBlock Text="{Binding Date, Converter={StaticResource DateToStringConverter}}" FontSize="24" />
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Image Source="{Binding Weather, Converter={StaticResource WeatherToPathConverter}}" Width="100" Height="100" />
+                                <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                                    <TextBlock Text="High: " FontSize="14" />
+                                    <TextBlock Text="{Binding HourlyForecast,Converter={StaticResource ToHighConverter}}" FontSize="18" />
+                                    <TextBlock Text="Low: " FontSize="14" />
+                                    <TextBlock Text="{Binding HourlyForecast,Converter={StaticResource ToLowConverter}}" FontSize="18" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

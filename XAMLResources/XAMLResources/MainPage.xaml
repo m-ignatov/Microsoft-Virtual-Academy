@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="XAMLResources.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XAMLResources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource PhoneBackgroundBrush}"
+    >
+    
+    <Page.Resources>
+     
+    </Page.Resources>
+    
+    <StackPanel Margin="20,30,0,0">
+        <TextBlock Text="APP NAME" Foreground="{StaticResource MyBrush}" />
+
+        <TextBlock Text="page name" Style="{StaticResource HeaderTextBlockStyle}" />
+
+        <Button Content="My Brush Example"
+                Height="100" 
+                Style="{StaticResource MyButtonStyle}" />
+    </StackPanel>
+
+</Page>

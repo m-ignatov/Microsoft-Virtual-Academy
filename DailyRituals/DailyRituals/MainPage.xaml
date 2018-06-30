@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="DailyRituals.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DailyRituals"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:valueconverter="using:DailyRituals.Value_Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <Page.Resources>
+        <valueconverter:IsCompleteToBoolean x:Key="IsCompleteToBooleanConverter"/>
+        <valueconverter:CompletedDaysToIntConverter x:Key="CompletedDaysToIntConverter"/>
+    </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Add" Label="Add Ritual" Name="addRitual" Click="addRitual_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
+    
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Style="{ThemeResource HeaderTextBlockStyle}" Text="Daily Rituals" Margin="18,10,0,0"/>
+            <TextBlock Grid.Row="1" Style="{ThemeResource BodyTextBlockStyle}" Margin="20,0,0,0" Text="Track the progress of your goals for 30 days" TextWrapping="Wrap"/>
+
+            <Grid Grid.Row="2" Margin="20,20,20,0">
+
+                <Grid.Resources>
+                    <DataTemplate x:Name="dataTemplate">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Name}" FontSize="24"/>
+                            <TextBlock Text="{Binding Description}" FontSize="18"/>
+
+                            <Button Name="CompletedButton" 
+                                Content="I did it today!" 
+                                Command="{Binding CompletedCommand}" 
+                                CommandParameter="{Binding}"
+                                IsEnabled="{Binding Dates,Converter={StaticResource IsCompleteToBooleanConverter}}"/>
+                            <ProgressBar Value="{Binding Dates, Converter={StaticResource CompletedDaysToIntConverter}}" Maximum="30" Minimum="0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Grid.Resources>
+
+                <ItemsControl x:Name="itemsControl"
+                          ItemsSource="{Binding}"
+                          ItemTemplate="{StaticResource dataTemplate}"/>
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</Page>
